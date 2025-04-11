@@ -25,29 +25,32 @@ class TTSService {
       console.log(`[${this.formatTime()}] TTS: Initializing playback
         Text: "${text}"
         Language: ${language}
-        Voice: ${LANGUAGE_VOICES[language]?.voice || 'default'}
       `);
 
       options.onStart?.();
       this.isPlaying = true;
 
-      console.log(`[${this.formatTime()}] TTS: Sending request to OpenAI API
-        Model: tts-1
-        Voice: ${LANGUAGE_VOICES[language]?.voice}
-        Text length: ${text.length} characters
-      `);
-
       const audioData = await generateSpeech(text, language);
-      
-      console.log(`[${this.formatTime()}] TTS: Received response from OpenAI API
-        Response type: ArrayBuffer
-        Data size: ${audioData.byteLength} bytes
+      console.log(`[${this.formatTime()}] TTS: Received audio data
+        Type: ${audioData.constructor.name}
+        Size: ${audioData.byteLength} bytes
       `);
 
       const audioBlob = new Blob([audioData], { type: 'audio/mpeg' });
       const audioUrl = URL.createObjectURL(audioBlob);
 
       this.audio = new Audio(audioUrl);
+      
+      this.audio.addEventListener('loadedmetadata', () => {
+        console.log(`[${this.formatTime()}] TTS: Audio metadata loaded
+          Duration: ${this.audio?.duration}s
+          Ready State: ${this.audio?.readyState}
+        `);
+      });
+
+      this.audio.addEventListener('canplay', () => {
+        console.log(`[${this.formatTime()}] TTS: Audio can play`);
+      });
 
       this.audio.addEventListener('ended', () => {
         console.log(`[${this.formatTime()}] TTS: Audio playback completed

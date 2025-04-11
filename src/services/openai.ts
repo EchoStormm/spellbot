@@ -8,20 +8,29 @@ export async function generateSpeech(text: string, language: string): Promise<Ar
 
   const startTime = Date.now();
 
-  const { data, error } = await supabase.functions.invoke('secrets', {
-    body: { text, language }
+  const response = await supabase.functions.invoke('secrets', {
+    body: { text, language },
+    responseType: 'arrayBuffer'
   });
 
-  if (error) {
-    console.error('Error generating speech:', error);
+  if (response.error) {
+    console.error('Error generating speech:', response.error);
     throw new Error('Failed to generate speech');
+  }
+
+  // Vérifiez que la réponse est bien un ArrayBuffer
+  if (!(response.data instanceof ArrayBuffer)) {
+    console.error('Invalid response format:', response.data);
+    throw new Error('Invalid response format from TTS service');
   }
 
   const endTime = Date.now();
   console.log(`[${new Date().toISOString()}] Speech Generation Response:
     Status: Success
     Response time: ${endTime - startTime}ms
+    Data type: ${response.data.constructor.name}
+    Data size: ${response.data.byteLength} bytes
   `);
 
-  return data;
+  return response.data;
 }
