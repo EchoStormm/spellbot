@@ -2,7 +2,7 @@
 
 A modern web application built with React, TypeScript, and Supabase.
 
-## 🚀 Features
+## Features
 
 - Built with React and TypeScript
 - Styled with Tailwind CSS
@@ -11,7 +11,7 @@ A modern web application built with React, TypeScript, and Supabase.
 - OpenAI integration
 - Internationalization support (i18n)
 
-## 🛠️ Tech Stack
+## 🛠Tech Stack
 
 - **Frontend Framework**: React 18
 - **Language**: TypeScript
@@ -23,7 +23,7 @@ A modern web application built with React, TypeScript, and Supabase.
 - **Routing**: React Router
 - **Icons**: Lucide React
 
-## 📦 Installation
+## Installation
 
 1. Clone the repository:
 ```bash
@@ -47,7 +47,7 @@ VITE_OPENAI_API_KEY=your_openai_api_key
 npm run dev
 ```
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 src/
@@ -61,7 +61,7 @@ src/
 └── types/         # TypeScript type definitions
 ```
 
-## 🧪 Available Scripts
+## Available Scripts
 
 - `npm run dev` - Start development server
 - `npm run build` - Build for production
